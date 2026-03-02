@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Fashion - Curated Amazon Deals</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #1a1a1a;
+  --accent: #d4a574;
+  --accent-hover: #b8935f;
+  --text: #2d2d2d;
+  --bg: #faf9f7;
+  --card-bg: #ffffff;
+  --shadow: 0 10px 40px rgba(0,0,0,0.08);
+  --shadow-hover: 0 20px 60px rgba(0,0,0,0.12);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Animated Grain Texture Overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1000;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Navigation */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  transition: all 0.4s ease;
+  background: transparent;
+}
+
+nav.scrolled {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+  padding: 15px 50px;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -1px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo::before {
+  content: '✦';
+  color: var(--accent);
+  font-size: 20px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--primary);
+  font-weight: 500;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* Hero Section */
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f5f0eb 0%, #e8e0d5 100%);
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(212,165,116,0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  top: -200px;
+  right: -200px;
+  animation: float 20s infinite ease-in-out;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(212,165,116,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  bottom: -100px;
+  left: -100px;
+  animation: float 15s infinite ease-in-out reverse;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -30px) scale(1.1); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 10px 25px;
+  background: rgba(212,165,116,0.15);
+  border: 1px solid var(--accent);
+  border-radius: 50px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 30px;
+  animation: fadeInDown 1s ease;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 8vw, 80px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  color: var(--primary);
+  animation: fadeInUp 1s ease 0.2s both;
+}
+
+.hero p {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 40px;
+  font-weight: 300;
+  animation: fadeInUp 1s ease 0.4s both;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 40px;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: fadeInUp 1s ease 0.6s both;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  background: var(--accent);
+}
+
+.cta-button::after {
+  content: '→';
+  transition: transform 0.3s ease;
+}
+
+.cta-button:hover::after {
+  transform: translateX(5px);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Products Section */
+.products-section {
+  padding: 100px 50px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.section-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px;
+  margin-bottom: 15px;
+  color: var(--primary);
+}
+
+.section-header p {
+  color: #888;
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Filter Tags */
+.filter-tags {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+
+.filter-tag {
+  padding: 12px 30px;
+  border: 2px solid #e0e0e0;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  font-size: 14px;
+  background: transparent;
+}
+
+.filter-tag:hover,
+.filter-tag.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+}
+
+/* Products Grid */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 40px;
+}
+
+.product-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.product-card:hover {
+  transform: translateY(-10px) rotateX(2deg);
+  box-shadow: var(--shadow-hover);
+}
+
+.product-image-wrapper {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f5f0eb 0%, #e8e0d5 100%);
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.08);
+}
+
+.product-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: var(--accent);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  z-index: 10;
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.wishlist-btn:hover {
+  background: #ff4757;
+  color: white;
+  transform: scale(1.1);
+}
+
+.product-info {
+  padding: 30px;
+}
+
+.product-category {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.product-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: var(--primary);
+  line-height: 1.3;
+}
+
+.product-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.rating {
+  display: flex;
+  gap: 3px;
+  color: #ffc107;
+  font-size: 14px;
+}
+
+.price-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 16px;
+}
+
+.current-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+  font-family: 'Playfair Display', serif;
+}
+
+.buy-button {
+  width: 100%;
+  padding: 16px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.buy-button:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(212,165,116,0.3);
+}
+
+.buy-button::before {
+  content: '🛒';
+}
+
+/* Features Section */
+.features {
+  padding: 100px 50px;
+  background: white;
+}
+
+.features-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 60px;
+  text-align: center;
+}
+
+.feature {
+  padding: 20px;
+}
+
+.feature-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--accent) 0%, #e8d5c4 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 25px;
+  font-size: 32px;
+  transition: transform 0.3s ease;
+}
+
+.feature:hover .feature-icon {
+  transform: rotateY(360deg);
+}
+
+.feature h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.feature p {
+  color: #666;
+  line-height: 1.8;
+}
+
+/* Newsletter */
+.newsletter {
+  padding: 100px 50px;
+  background: var(--primary);
+  color: white;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.newsletter::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(212,165,116,0.1) 0%, transparent 50%);
+  animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.newsletter-content {
+  position: relative;
+  z-index: 10;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.newsletter h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  margin-bottom: 20px;
+}
+
+.newsletter p {
+  margin-bottom: 40px;
+  opacity: 0.8;
+  font-size: 18px;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.newsletter-form input {
+  padding: 18px 30px;
+  border: 2px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.1);
+  border-radius: 50px;
+  color: white;
+  font-size: 16px;
+  width: 300px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.newsletter-form input::placeholder {
+  color: rgba(255,255,255,0.6);
+}
+
+.newsletter-form input:focus {
+  border-color: var(--accent);
+  background: rgba(255,255,255,0.15);
+}
+
+.newsletter-form button {
+  padding: 18px 40px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.newsletter-form button:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+/* Footer */
+footer {
+  background: #0a0a0a;
+  color: white;
+  padding: 60px 50px 30px;
+  text-align: center;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  text-align: left;
+  margin-bottom: 50px;
+}
+
+.footer-section h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.footer-section ul {
+  list-style: none;
+}
+
+.footer-section ul li {
+  margin-bottom: 12px;
+}
+
+.footer-section a {
+  color: #888;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+  color: white;
+}
+
+.disclosure {
+  border-top: 1px solid #333;
+  padding-top: 30px;
+  color: #666;
+  font-size: 14px;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  nav {
+    padding: 15px 20px;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .hero h1 {
+    font-size: 40px;
+  }
+  
+  .products-section,
+  .features,
+  .newsletter {
+    padding: 60px 20px;
+  }
+  
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Scroll Reveal Animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#" class="logo">The Fashion</a>
+  <ul class="nav-links">
+    <li><a href="#trending">Trending</a></li>
+    <li><a href="#women">Women</a></li>
+    <li><a href="#men">Men</a></li>
+    <li><a href="#accessories">Accessories</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">✨ Curated Amazon Finds</div>
+    <h1>Elevate Your Style</h1>
+    <p>Discover handpicked fashion essentials with exclusive Amazon deals. Quality meets affordability.</p>
+    <a href="#products" class="cta-button">Explore Collection</a>
+  </div>
+</section>
+
+<section class="products-section" id="products">
+  <div class="section-header reveal">
+    <h2>This Week's Picks</h2>
+    <p>Carefully selected pieces that blend timeless elegance with modern trends</p>
+  </div>
+  
+  <div class="filter-tags reveal">
+    <button class="filter-tag active">All</button>
+    <button class="filter-tag">Dresses</button>
+    <button class="filter-tag">Bags</button>
+    <button class="filter-tag">Shoes</button>
+    <button class="filter-tag">Accessories</button>
+  </div>
+
+  <div class="products-grid">
+    <!-- Product 1 -->
+    <article class="product-card reveal">
+      <div class="product-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop" alt="Summer Dress" class="product-image">
+        <span class="product-badge">Best Seller</span>
+        <button class="wishlist-btn">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Dresses</div>
+        <h3 class="product-title">Ethereal Summer Midi Dress</h3>
+        <div class="product-meta">
+          <div class="rating">★★★★★ <span style="color:#999; font-size:12px;">(2.4k)</span></div>
+          <div class="price-wrapper">
+            <span class="original-price">$45.00</span>
+            <span class="current-price">$29.99</span>
+          </div>
+        </div>
+        <a href="YOUR_AMAZON_AFFILIATE_LINK_HERE" target="_blank" style="text-decoration:none;">
+          <button class="buy-button">Shop Now</button>
+        </a>
+      </div>
+    </article>
+
+    <!-- Product 2 -->
+    <article class="product-card reveal">
+      <div class="product-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&h=500&fit=crop" alt="Handbag" class="product-image">
+        <span class="product-badge" style="background:#ff4757;">-33%</span>
+        <button class="wishlist-btn">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Accessories</div>
+        <h3 class="product-title">Italian Leather Crossbody</h3>
+        <div class="product-meta">
+          <div class="rating">★★★★☆ <span style="color:#999; font-size:12px;">(892)</span></div>
+          <div class="price-wrapper">
+            <span class="original-price">$68.00</span>
+            <span class="current-price">$45.00</span>
+          </div>
+        </div>
+        <a href="YOUR_AMAZON_AFFILIATE_LINK_HERE" target="_blank" style="text-decoration:none;">
+          <button class="buy-button">Shop Now</button>
+        </a>
+      </div>
+    </article>
+
+    <!-- Product 3 -->
+    <article class="product-card reveal">
+      <div class="product-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?w=400&h=500&fit=crop" alt="Sneakers" class="product-image">
+        <span class="product-badge">New</span>
+        <button class="wishlist-btn">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Footwear</div>
+        <h3 class="product-title">Minimalist White Sneakers</h3>
+        <div class="product-meta">
+          <div class="rating">★★★★★ <span style="color:#999; font-size:12px;">(5.1k)</span></div>
+          <div class="price-wrapper">
+            <span class="original-price">$85.00</span>
+            <span class="current-price">$59.99</span>
+          </div>
+        </div>
+        <a href="YOUR_AMAZON_AFFILIATE_LINK_HERE" target="_blank" style="text-decoration:none;">
+          <button class="buy-button">Shop Now</button>
+        </a>
+      </div>
+    </article>
+
+    <!-- Product 4 -->
+    <article class="product-card reveal">
+      <div class="product-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=500&fit=crop" alt="Blazer" class="product-image">
+        <span class="product-badge">Trending</span>
+        <button class="wishlist-btn">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Outerwear</div>
+        <h3 class="product-title">Oversized Linen Blazer</h3>
+        <div class="product-meta">
+          <div class="rating">★★★★★ <span style="color:#999; font-size:12px;">(1.2k)</span></div>
+          <div class="price-wrapper">
+            <span class="original-price">$120.00</span>
+            <span class="current-price">$89.99</span>
+          </div>
+        </div>
+        <a href="YOUR_AMAZON_AFFILIATE_LINK_HERE" target="_blank" style="text-decoration:none;">
+          <button class="buy-button">Shop Now</button>
+        </a>
+      </div>
+    </article>
+
+    <!-- Product 5 -->
+    <article class="product-card reveal">
+      <div class="product-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1611085583195-aee3f0e48e3e?w=400&h=500&fit=crop" alt="Jewelry" class="product-image">
+        <span class="product-badge" style="background:#2ed573;">Deal</span>
+        <button class="wishlist-btn">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Jewelry</div>
+        <h3 class="product-title">Gold Layered Necklace Set</h3>
+        <div class="product-meta">
+          <div class="rating">★★★★☆ <span style="color:#999; font-size:12px;">(3.4k)</span></div>
+          <div class="price-wrapper">
+            <span class="original-price">$35.00</span>
+            <span class="current-price">$24.99</span>
+          </div>
+        </div>
+        <a href="YOUR_AMAZON_AFFILIATE_LINK_HERE" target="_blank" style="text-decoration:none;">
+          <button class="buy-button">Shop Now</button>
+        </a>
+      </div>
+    </article>
+
+    <!-- Product 6 -->
+    <article class="product-card reveal">
+      <div class="product-image-wrapper">
+        <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&h=500&fit=crop" alt="Boots" class="product-image">
+        <span class="product-badge">Seasonal</span>
+        <button class="wishlist-btn">♡</button>
+      </div>
+      <div class="product-info">
+        <div class="product-category">Footwear</div>
+        <h3 class="product-title">Chelsea Ankle Boots</h3>
+        <div class="product-meta">
+          <div class="rating">★★★★★ <span style="color:#999; font-size:12px;">(987)</span></div>
+          <div class="price-wrapper">
+            <span class="original-price">$95.00</span>
+            <span class="current-price">$69.99</span>
+          </div>
+        </div>
+        <a href="YOUR_AMAZON_AFFILIATE_LINK_HERE" target="_blank" style="text-decoration:none;">
+          <button class="buy-button">Shop Now</button>
+        </a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="features">
+  <div class="features-grid">
+    <div class="feature reveal">
+      <div class="feature-icon">🚀</div>
+      <h3>Fast Shipping</h3>
+      <p>Prime eligible items with 2-day delivery on most products</p>
+    </div>
+    <div class="feature reveal">
+      <div class="feature-icon">✓</div>
+      <h3>Verified Quality</h3>
+      <p>Every item hand-tested and reviewed before recommendation</p>
+    </div>
+    <div class="feature reveal">
+      <div class="feature-icon">↩</div>
+      <h3>Easy Returns</h3>
+      <p>30-day return policy with Amazon's A-to-Z guarantee</p>
+    </div>
+    <div class="feature reveal">
+      <div class="feature-icon">💎</div>
+      <h3>Best Prices</h3>
+      <p>We monitor prices daily to ensure you get the best deals</p>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter">
+  <div class="newsletter-content">
+    <h2>Join the Inner Circle</h2>
+    <p>Get weekly curated fashion finds and exclusive Amazon deals delivered to your inbox.</p>
+    <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thanks for subscribing!');">
+      <input type="email" placeholder="Enter your email" required>
+      <button type="submit">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">Best Sellers</a></li>
+        <li><a href="#">Sale</a></li>
+        <li><a href="#">Gift Cards</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Shipping Info</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Size Guide</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>About</h4>
+      <ul>
+        <li><a href="#">Our Story</a></li>
+        <li><a href="#">Sustainability</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Connect</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Pinterest</a></li>
+        <li><a href="#">TikTok</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="disclosure">
+    <p>Disclosure: As an Amazon Associate, we earn from qualifying purchases. The Fashion is a participant in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising fees by advertising and linking to Amazon.com. All product images are for illustrative purposes only. Prices and availability are subject to change.</p>
+  </div>
+</footer>
+
+<script>
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  const navbar = document.getElementById('navbar');
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
+
+// Scroll reveal animation
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: "0px 0px -50px 0px"
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Filter tags interaction
+document.querySelectorAll('.filter-tag').forEach(tag => {
+  tag.addEventListener('click', function() {
+    document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// Wishlist toggle
+document.querySelectorAll('.wishlist-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    this.textContent = this.textContent === '♡' ? '♥' : '♡';
+    this.style.color = this.textContent === '♥' ? '#ff4757' : 'inherit';
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
